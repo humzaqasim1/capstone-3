@@ -46,15 +46,15 @@ public class CategoriesController
 
     // the url to return all products in category 1 would look like this
     // https://localhost:8080/categories/1/products
-    @GetMapping("{categoryId}/products")
+    @GetMapping("categories/{categoryId}/products")
     public List<Product> getProductsById(@PathVariable int categoryId)
     {
         // get a list of product by categoryId
-        return null;
+        return this.productDao.listByCategoryId(categoryId);
     }
 
     // add annotation to call this method for a POST action
-    // add annotation to ensure that only an ADMIN can call this function
+    // TODO: add annotation to ensure that only an ADMIN can call this function
     @RequestMapping (path = "/categories", method = RequestMethod.POST)
     public Category addCategory(@RequestBody Category category)
     {
@@ -64,9 +64,11 @@ public class CategoriesController
 
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
     // add annotation to ensure that only an ADMIN can call this function
+    @RequestMapping (path = "/categories/{id}", method = RequestMethod.PUT)
     public void updateCategory(@PathVariable int id, @RequestBody Category category)
     {
         // update the category by id
+        this.categoryDao.update(id, category);
     }
 
 
