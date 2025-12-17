@@ -1,5 +1,7 @@
 package org.yearup.models;
 
+import org.yearup.data.ShoppingCartDao;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,5 +44,4 @@ public class ShoppingCart
 
         return total;
     }
-
 }
