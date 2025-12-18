@@ -20,7 +20,8 @@ import java.security.Principal;
 // convert this class to a REST controller
 // only logged in users should have access to these actions
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("cart")
+@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
 @CrossOrigin
 public class ShoppingCartController
 {
@@ -42,13 +43,13 @@ public class ShoppingCartController
     // each method in this controller requires a Principal object as a parameter
     @GetMapping("")
     @ResponseStatus(value = HttpStatus.OK)
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ShoppingCart getCart(Principal principal) {
         try {
             String userName = principal.getName();
             User user = userDao.getByUserName(userName);
             int userId = user.getId();
-            ShoppingCart cart = shoppingCartDao.getByUserId(user.getId());
+            ShoppingCart cart = shoppingCartDao.getByUserId(userId);
             return cart;
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
@@ -57,9 +58,9 @@ public class ShoppingCartController
 
     // add a POST method to add a product to the cart - the url should be
     // https://localhost:8080/cart/products/15 (15 is the productId to be added)
-    @PostMapping("/products/{id}")
+    @PostMapping("products/{id}")
     @ResponseStatus(value=HttpStatus.CREATED)
-    @PreAuthorize("hasAnyRole('ADMIN','USER')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
     public ShoppingCart addItem(@PathVariable int id, Principal principal) {
 
         // get user's name and user information
@@ -71,12 +72,11 @@ public class ShoppingCartController
 
         ShoppingCart shoppingCart = shoppingCartDao.getByUserId(user.getId());
 
-        ShoppingCartItem item = new ShoppingCartItem();
-        item.setProduct(product);
-        item.setQuantity(1);
 
-        shoppingCartDao.addShoppingCartItem(item,user);
-        return shoppingCartDao.getByUserId(user.getId());
+
+//        shoppingCart.add(item);
+        shoppingCartDao.addShoppingCartItem(product, user);
+        return shoppingCart;
     }
 
     // add a POST method to add a product to the cart - the url should be
