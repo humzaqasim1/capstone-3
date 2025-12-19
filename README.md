@@ -1,14 +1,6 @@
-# Capstone 3 – EasyShop (Backend + Frontend)
+# Capstone 3 – EasyShop - Humza Qasim
 
 This project contains a Java Spring Boot backend and a static HTML/CSS/JavaScript frontend.
-
-When you unzip the archive, you should get a folder named `capstone-3` with this structure:
-
-```text
-capstone-3/
-  backend-api/      # Java Spring Boot backend (Maven)
-  frontend-ui/         # Static HTML, CSS, JS
-````
 
 ---
 
@@ -20,67 +12,21 @@ capstone-3/
 * **MySQL Workbench** (to run the database script)
 * Internet browser (Chrome, Firefox, Edge, Safari, etc.)
 
-You do **not** need to install Maven separately; IntelliJ can use its bundled Maven.
 
 ---
 
-## How to open the project in IntelliJ
+## Project Description
 
-1. Unzip the project so you have a folder called `capstone-3`.
-2. Open IntelliJ IDEA (Community).
-3. Choose **File → Open...**.
-4. Select the `capstone-3` folder and click **Open**.
-5. When IntelliJ asks you to “Trust” the project, click **Trust**.
-6. IntelliJ will load the project with two modules:
-
-    * `backend-api` – Java Spring Boot backend
-    * `frontend-ui` – static HTML/CSS/JS
-
-If IntelliJ asks you to configure an SDK, choose **JDK 17**.
-
+This project contains a digital storefront for EasyShop; a store that sells clothing, electronics, and home/cooking wares. 
+Code was provided for most of the backend of this project, though adjustments, additions, and bug fixes were made by me.
+I fixed the category function of the program as well as solved bugs involving the search feature and accidental product duplication.
+I had hoped to create a functional shopping cart feature but struggled to finish coding it in time.
 ---
 
-## Database setup (MySQL)
-
-Before you run the backend, you must create and initialize the database.
-
-1. Make sure **MySQL Server** is running on your machine.
-
-2. Open **MySQL Workbench**.
-
-3. Connect to your local MySQL server (for example, `localhost` with your MySQL username).
-
-4. In MySQL Workbench, go to **File → Open SQL Script...**.
-
-5. Navigate to the project folder and open:
-
-   ```text
-   capstone-3/backend-api/database/create_database_easyshop.sql
-   ```
-
-6. Once the script is open in Workbench, click the **Execute** button (the lightning bolt icon) to run the script.
-
-    * This will create the database and any required tables/data for the EasyShop application.
-
-7. In IntelliJ, open:
-
-   ```text
-   capstone-3/backend-api/src/main/resources/application.properties
-   ```
-
-   and check the database connection settings (URL, username, and password).
-   Make sure:
-
-    * The **database name** matches what the SQL script created.
-    * The **username and password** match a valid MySQL user on your system.
-
-   If needed, you can either:
-
-    * Update `application.properties` to match your MySQL username/password, **or**
-    * Create a MySQL user in Workbench that matches the values in `application.properties`.
-
-Once the script has run successfully and the credentials match, the backend will be able to connect to the database.
-
+## Application Screen Images
+![Screenshot 2025-12-18 at 7.45.12 PM.png](../../Desktop/Screenshot%202025-12-18%20at%207.45.12%E2%80%AFPM.png)
+![Screenshot 2025-12-18 at 7.46.04 PM.png](../../Desktop/Screenshot%202025-12-18%20at%207.46.04%E2%80%AFPM.png)
+![Screenshot 2025-12-18 at 7.47.19 PM.png](../../Desktop/Screenshot%202025-12-18%20at%207.47.19%E2%80%AFPM.png)
 ---
 
 ## How to run the backend
