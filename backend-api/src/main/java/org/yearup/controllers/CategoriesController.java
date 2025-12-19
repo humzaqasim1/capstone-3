@@ -13,39 +13,38 @@ import org.yearup.models.Product;
 
 import java.util.List;
 
-// add the annotations to make this a REST controller
-// add the annotation to make this controller the endpoint for the following url
-    // http://localhost:8080/categories
-// add annotation to allow cross site origin requests
+// added the annotations to make this a REST controller
+// added annotation to allow cross site origin requests
 @RestController
 @CrossOrigin
 public class CategoriesController
 {
+
     private CategoryDao categoryDao;
     private ProductDao productDao;
 
-
-    // create an Autowired controller to inject the categoryDao and ProductDao
+    // created an Autowired controller to inject the categoryDao and ProductDao
     @Autowired
     public CategoriesController(CategoryDao categoryDao, ProductDao productDao){
         this.categoryDao = categoryDao;
         this.productDao = productDao;
     }
-    // add the appropriate annotation for a get action
+
+    // added the appropriate annotation for a get action
     @RequestMapping (path = "/categories", method = RequestMethod.GET)
     public List<Category> getAll()
     {
-        // find and return all categories
+        // finds and returns all categories
 
         return this.categoryDao.getAllCategories();
     }
 
-    // add the appropriate annotation for a get action
+    // added the appropriate annotation for a get action
     @RequestMapping (path = "/categories/{id}", method = RequestMethod.GET)
     @ResponseStatus (value = HttpStatus.OK)
     public Category getById(@PathVariable int id)
     {
-        // get the category by id
+        // gets the category by id
         Category result = this.categoryDao.getById(id);
         if (result == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
@@ -53,47 +52,45 @@ public class CategoriesController
         return result;
     }
 
-    // the url to return all products in category 1 would look like this
-    // https://localhost:8080/categories/1/products
+    // added the appropriate annotation for a get action
     @GetMapping("categories/{categoryId}/products")
     @ResponseStatus (value = HttpStatus.OK)
     public List<Product> getProductsById(@PathVariable int categoryId)
     {
-        // get a list of product by categoryId
+        // gets a list of product by categoryId
         return this.productDao.listByCategoryId(categoryId);
     }
 
-    // add annotation to call this method for a POST action
-    // add annotation to ensure that only an ADMIN can call this function
+    // added annotation to call this method for a POST action
+    // added annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping (path = "/categories", method = RequestMethod.POST)
     @ResponseStatus (value = HttpStatus.CREATED)
     public Category addCategory(@RequestBody Category category)
     {
-        // insert the category
+        // inserts the category
         return this.categoryDao.create(category);
     }
 
-    // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
-    // add annotation to ensure that only an ADMIN can call this function
+    // added annotation to call this method for a PUT (update) action
+    // added annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping (path = "/categories/{id}", method = RequestMethod.PUT)
     @ResponseStatus (value = HttpStatus.OK)
     public void updateCategory(@PathVariable int id, @RequestBody Category category)
     {
-        // update the category by id
+        // updates the category by id
         this.categoryDao.update(id, category);
     }
 
-
-    // add annotation to call this method for a DELETE action - the url path must include the categoryId
-    // add annotation to ensure that only an ADMIN can call this function
+    // added annotation to call this method for a DELETE action
+    // added annotation to ensure that only an ADMIN can call this function
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @RequestMapping (path = "/categories/{id}", method = RequestMethod.DELETE)
     @ResponseStatus (value = HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable int id)
     {
-        // delete the category by id
+        // deletes the category by id
         this.categoryDao.delete(id);
     }
 }

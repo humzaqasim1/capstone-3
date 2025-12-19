@@ -1,4 +1,4 @@
-# Capstone 3 – EasyShop - Humza Qasim
+# Capstone 3: **_EasyShop_** - by Humza Qasim
 
 This project contains a Java Spring Boot backend and a static HTML/CSS/JavaScript frontend.
 
@@ -19,8 +19,8 @@ This project contains a Java Spring Boot backend and a static HTML/CSS/JavaScrip
 
 This project contains a digital storefront for EasyShop; a store that sells clothing, electronics, and home/cooking wares. 
 Code was provided for most of the backend of this project, though adjustments, additions, and bug fixes were made by me.
-I fixed the category function of the program as well as solved bugs involving the search feature and accidental product duplication.
-I had hoped to create a functional shopping cart feature but struggled to finish coding it in time.
+I fixed the category functionality of the program as well as solved bugs involving the search feature and accidental product duplication.
+I had hoped to create a functional shopping cart feature but struggled to get the code to work in time.
 ---
 
 ## Application Screen Images
@@ -30,58 +30,99 @@ I had hoped to create a functional shopping cart feature but struggled to finish
 
 ---
 
-## How to run the backend
+## Interesting Code
 
-1. In IntelliJ, make sure the project is fully indexed and Maven dependencies have been downloaded (you may see a progress bar at the bottom).
-2. In the **Run configuration** dropdown (top-right of IntelliJ), choose:
+One piece of code I found interesting and exciting to make was the CategoriesController. This class implemented methods from multiple DAOs and contained request mapping as well as response statuses.
+```java
+// added the annotations to make this a REST controller
+// added annotation to allow cross site origin requests
+@RestController
+@CrossOrigin
+public class CategoriesController
+{
+    
+    private CategoryDao categoryDao;
+    private ProductDao productDao;
+    
+    // created an Autowired controller to inject the categoryDao and ProductDao
+    @Autowired
+    public CategoriesController(CategoryDao categoryDao, ProductDao productDao){
+        this.categoryDao = categoryDao;
+        this.productDao = productDao;
+    }
+    
+    // added the appropriate annotation for a get action
+    @RequestMapping (path = "/categories", method = RequestMethod.GET)
+    public List<Category> getAll()
+    {
+        // finds and returns all categories
 
-   **`Backend (Spring Boot)`**
+        return this.categoryDao.getAllCategories();
+    }
 
-   (If it doesn’t exist, you can run the main class manually by right-clicking the `EasyshopApplication` class in `backend-api` and choosing **Run**.)
-3. Click the green **Run** triangle.
-4. The Spring Boot application will start and listen on:
+    // added the appropriate annotation for a get action
+    @RequestMapping (path = "/categories/{id}", method = RequestMethod.GET)
+    @ResponseStatus (value = HttpStatus.OK)
+    public Category getById(@PathVariable int id)
+    {
+        // gets the category by id
+        Category result = this.categoryDao.getById(id);
+        if (result == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return result;
+    }
 
-   ```text
-   http://localhost:8080
-   ```
+    // added the appropriate annotation for a get action
+    @GetMapping("categories/{categoryId}/products")
+    @ResponseStatus (value = HttpStatus.OK)
+    public List<Product> getProductsById(@PathVariable int categoryId)
+    {
+        // gets a list of product by categoryId
+        return this.productDao.listByCategoryId(categoryId);
+    }
 
-Check the Run tool window for any startup errors (for example, database connection problems). If there are errors, double-check your MySQL setup and `application.properties` values.
+    // added annotation to call this method for a POST action
+    // added annotation to ensure that only an ADMIN can call this function
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping (path = "/categories", method = RequestMethod.POST)
+    @ResponseStatus (value = HttpStatus.CREATED)
+    public Category addCategory(@RequestBody Category category)
+    {
+        // inserts the category
+        return this.categoryDao.create(category);
+    }
 
+    // added annotation to call this method for a PUT (update) action
+    // added annotation to ensure that only an ADMIN can call this function
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping (path = "/categories/{id}", method = RequestMethod.PUT)
+    @ResponseStatus (value = HttpStatus.OK)
+    public void updateCategory(@PathVariable int id, @RequestBody Category category)
+    {
+        // updates the category by id
+        this.categoryDao.update(id, category);
+    }
+    
+    // added annotation to call this method for a DELETE action
+    // added annotation to ensure that only an ADMIN can call this function
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping (path = "/categories/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus (value = HttpStatus.NO_CONTENT)
+    public void deleteCategory(@PathVariable int id)
+    {
+        // deletes the category by id
+        this.categoryDao.delete(id);
+    }
+}
+
+```
 ---
 
-## How to run the frontend
+## Future Goals
 
-1. In IntelliJ’s **Project** view, navigate to:
+I hope to complete the shopping cart, user login, and checkout functions to create a fully operational website.
 
-   ```text
-   frontend-ui/index.html
-   ```
 
-2. Right-click `index.html` → **Open in Browser** → choose your browser.
 
-3. Alternatively, you can locate `frontend-ui/index.html` in Finder / File Explorer and double-click it to open it in a browser.
 
----
-
-## Where to make changes
-
-* **Backend logic** (controllers, models, data access, etc.) is in:
-
-  ```text
-  backend-api/src/main/java/
-  ```
-
-* **Backend configuration** (including database settings) is in:
-
-  ```text
-  backend-api/src/main/resources/
-  ```
-
-* **Frontend HTML/CSS/JS** is in the `frontend-ui` folder:
-
-  ```text
-  frontend-ui/index.html
-  frontend-ui/css/
-  frontend-ui/js/
-  frontend-ui/images/
-  ```
