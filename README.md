@@ -24,9 +24,10 @@ I had hoped to create a functional shopping cart feature but struggled to finish
 ---
 
 ## Application Screen Images
-![Screenshot 2025-12-18 at 7.45.12 PM.png](../../Desktop/Screenshot%202025-12-18%20at%207.45.12%E2%80%AFPM.png)
-![Screenshot 2025-12-18 at 7.46.04 PM.png](../../Desktop/Screenshot%202025-12-18%20at%207.46.04%E2%80%AFPM.png)
-![Screenshot 2025-12-18 at 7.47.19 PM.png](../../Desktop/Screenshot%202025-12-18%20at%207.47.19%E2%80%AFPM.png)
+![CapstoneScreenshot1](https://github.com/user-attachments/assets/6dc13e9b-1be0-4226-94c0-c3e3edf23e60)
+![CapstoneScreenshot2](https://github.com/user-attachments/assets/962df57d-5322-4cd0-b82d-4580a12374c2)
+![CapstoneScreenshot3](https://github.com/user-attachments/assets/49c59486-de42-43d7-8d80-65845f53589e)
+
 ---
 
 ## How to run the backend
